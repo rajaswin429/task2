@@ -1,0 +1,148 @@
+package Package2;
+
+
+	import java.io.BufferedReader;
+	import java.io.FileOutputStream;
+	import java.io.FileReader;
+	import java.io.IOException;
+	import java.io.OutputStream;
+	import java.util.ArrayList;
+	import java.util.Collections;
+	//import FileInputStream;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+//import org.apache.poi.ss.usermodel.Cell;
+	//import org.apache.poi.ss.usermodel.Row;
+	//import org.apache.poi.ss.usermodel.Sheet;
+	//import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+    import java.io.*;
+
+	public class ParentClass2 {
+	        int minrow;
+	        int maxrow;
+	        int row;
+	        int rownum;
+	        int limit;
+	       int avgrow;
+	        int addresult;
+	        ArrayList<Integer> rowarr = new ArrayList<Integer>();
+	       
+
+	       public ParentClass2(int rownum, int limit, int addresult, int minrow, int maxrow, int avgrow, int row){
+	                this.rownum =  rownum;
+	                this.limit = limit;
+	                this.addresult =  addresult;
+	                this.minrow =   minrow;
+	                this.maxrow = maxrow;
+	                this.avgrow = avgrow;
+	                this.row =  row;
+	        }
+
+
+
+
+	      
+	        
+	        public  void  readingCol(int colnumber,int limit , ArrayList<Integer> Testarr)
+	          {
+	          for(int i = colnumber; i <= limit ; i++ ) {
+
+	          rowarr.add(Testarr.get(i));
+
+	          }
+	          System.out.format("the %d row values are \n", row );
+	          System.out.println(rowarr);
+	          }
+
+	      
+	        
+	        
+	        
+	        public void assigningValues(ArrayList<Integer> array) {
+	                  System.out.println("");
+	          for(int i : array ) {
+
+	                  addresult =  addresult + i;
+                 }
+
+	         System.out.format("sum the elements of %dst row is :\n",row);
+
+
+	          System.out.println(addresult);
+
+	          System.out.format("sorting the %dst row\n", row, rowarr);
+
+	          Collections.sort(rowarr);
+	          System.out.println(rowarr);
+	          minrow = rowarr.get(0);
+	          System.out.format("the %dst row minimum element is %d ",row,rowarr.get(0));
+
+	           maxrow = rowarr.get(rowarr.size() - 1);
+
+	     System.out.format("the %dst row maximum value is %d \n " ,row,maxrow);
+
+	     avgrow = addresult / rowarr.size();
+	     System.out.format("the average of %dst row is  %d \n " ,row,(addresult / rowarr.size()) );
+
+ System.out.println();
+
+	        }
+
+
+	        
+	        public void printingInXml(ArrayList<Integer> objects) {
+	        
+
+	        	    try {
+	        	        DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+	        	        DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+
+	        	        // Create root element
+	        	        Document doc = docBuilder.newDocument();
+	        	        Element rootElement = doc.createElement("data");
+	        	        doc.appendChild(rootElement);
+
+	        	        // Create entry elements for each object
+	        	        for (Integer obj : objects) {
+	        	            Element entry = doc.createElement("entry");
+	        	            rootElement.appendChild(entry);
+
+	        	            // Add attributes to entry element
+	        	            String a =String.valueOf(obj.maxrow);
+	        	            entry.setAttribute("maxrow", obj.maxrow);
+	        	            entry.setAttribute("age", String.valueOf(obj.getAge()));
+
+	        	            // Add value element to entry element
+	        	        //    Element value = doc.createElement("value");
+	        	          //  value.appendChild(doc.createTextNode(String.valueOf(obj.getValue())));
+	        	            //entry.appendChild(value);
+	        	        }
+
+	        	        // Write data to file
+	        	        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	        	        Transformer transformer = transformerFactory.newTransformer();
+	        	        transformer.setOutputProperty(javax.xml.transform.OutputKeys.INDENT, "yes");
+	        	        DOMSource source = new DOMSource(doc);
+	        	        StreamResult result = new StreamResult(new File(fileName));
+	        	        transformer.transform(source, result);
+	        	        
+	        	        System.out.println("File saved!");
+	        	    } catch (Exception e) {
+	        	        e.printStackTrace();
+	        	    }
+	        	
+	        }
+	    
+	        
+	       	}
+
+
